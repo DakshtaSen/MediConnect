@@ -1,2 +1,2 @@
 # MediConnect
-Doctor Appointment System
+A platform to bridge patients and doctors with care.
