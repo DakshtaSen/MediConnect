@@ -1,0 +1,47 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+.env
+.DS_Store
+*.log
+*.tgz
+*.zip
+*.rar
+*.tar.gz
+*.swp
+.idea/
+.vscode/
+/dist
+/build
+/out
+/coverage
+/tmp
+/temp
+/logs
+/uploads
+
+# Editor-specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.c9/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Optional: If you use TypeScript
+*.tsbuildinfo
+
+# Optional: If you use a specific framework or tool, add its specific ignore rules here.
+# Example for Next.js:
+# .next/
+
+# Optional: If you have local configuration files not meant for version control
+# config.local.js
