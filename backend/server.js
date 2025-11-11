@@ -3,24 +3,26 @@ import cors from 'cors'
 import 'dotenv/config'
 import connectDB from './config/mongodb.js'
 import connectCloudinary from './config/cloudinary.js'
+import adminRouter from './routes/adminRoute.js'
 
 //app config
 const app = express()
-const port = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000
 connectDB()
 connectCloudinary()
 
 //middleware
 app.use(express.json())
-
 app.use(cors())
-// app.use(cors())  it will allow to connect frontend with backend
 
 //api endpoints
+app.use('/api/admin', adminRouter)
 
-app.get('/',(req,res)=>{
-  res.send('API Working')
+app.get('/', (req, res) => {
+  res.json({
+    msg:"working"
+  })
 })
 
 //start the express app
-app.listen(port, ()=> console.log("server started",4000))
+app.listen(PORT, () => console.log(`Server started on port ${PORT} `))
