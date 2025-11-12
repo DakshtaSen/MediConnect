@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MyAppointments() {
+function Appointment() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function MyAppointments() {
   )
 }
 
-export default MyAppointments
+export default Appointment
