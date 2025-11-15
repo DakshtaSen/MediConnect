@@ -1,4 +1,4 @@
-
+//AdminContext
 import { createContext, useState } from "react";
 
 export const AdminContext = createContext()
@@ -11,7 +11,6 @@ const AdminContextProvider = (props) => {
   const value = {
     aToken,setAToken,
     backendUrl
-
   }
   return (
     <AdminContext.Provider value={value}>
