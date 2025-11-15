@@ -1,1 +1,23 @@
-//yaha par ham multiple contro for multiple api
+import doctorModel from "../models/doctorModel.js"
+
+const changeAvailability = async(req,res)=>{
+  try {
+    //we can update the avialable status from the database
+
+    const {docId} = req.body
+
+    const docData = await doctorModel.findById(docId)
+    await doctorModel.findByIdAndUpdate(docId,{available: !docData.available})
+
+    res.json({success:true,message: 'Availability Changed'})
+
+
+    
+  } catch (error) {
+    console.log(error)
+    res.json({success:false, message:error.message})
+  }
+
+}
+
+export {changeAvailability}
