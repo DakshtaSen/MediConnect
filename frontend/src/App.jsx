@@ -4,7 +4,7 @@ import Home from './pages/Home'
 import Doctors from './pages/Doctors'
 import Login from './pages/Login'
 import About from './pages/About'
-import Contacts from './pages/Contacts'
+import Contact from './pages/Contact'
 import MyProfile from './pages/MyProfile'
 import MyAppointments from './pages/MyAppointments'
 import Appointment from './pages/Appointment'
@@ -22,7 +22,7 @@ const App = () => {
         <Route path='/doctors/:speciality' element={<Doctors />} />
         <Route path='/login' element={<Login />} />
         <Route path='/about' element={<About />} />
-        <Route path='/contacts' element={<Contacts />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='/my-profile' element={<MyProfile />} />
         <Route path='/my-appointments' element={<MyAppointments />} />
         <Route path='/appointment/:docId' element={<Appointment />} />
