@@ -35,7 +35,7 @@ const Footer = () => {
       <div>
         <hr/>
         <p className='py-5 text-sm text-center'>
-          Copyright 2024 @ Greatstack.dev - All Right Reserved.
+           © 2025 MediConnect — Secure. Reliable. Connected.
         </p>
       </div>
     </div>
