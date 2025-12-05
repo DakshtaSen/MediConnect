@@ -86,17 +86,16 @@ const loginUser = async(req,res)=>{
 
 }
 // API to get user profile data
-const getProfile = async(req,res) =>{
+const getProfile = async (req, res) => {
   try {
-    const { userId } = req.body
-    const userData = await userModel.findById(userId).select('-password')
+    const userId = req.userId;  // use req.userId, not req.body.userId
 
-    res.json({success:true,userData})
+    const userData = await userModel.findById(userId).select('-password');
+    res.json({ success: true, userData });
+
   } catch (error) {
-      console.log(error)
-    res.json({success:false, message:error.message})
+    res.json({ success: false, message: error.message });
   }
-
 }
 
 //api to update user profile
