@@ -5,6 +5,7 @@ import userModel from '../models/userModel.js'
 import jwt from 'jsonwebtoken'
 import doctorModel from '../models/doctorModel.js'
 import appointmentModel from '../models/appointmentModel.js'
+import {v2 as cloudinary} from 'cloudinary'
 // import { Suspense } from 'react'
 
 
@@ -98,6 +99,30 @@ const getProfile = async(req,res) =>{
 
 }
 
+//api to update user profile
+const updateProfile = async(req,res)=>{
+  try {
+    const {userId, name, phone, address, dob, gender } = req.body
+    const imageFile = req.file
+    if(!name || !phone || !dob || !gender){
+      return res.json({success:false,message:"Data Missing"})
+    }
+    await userModel.findByIdAndUpdate(userId,{name,phone,address:JSON.parse(address),dob,gender})
+
+    if(imageFile){
+      //upload image to cloudinary
+      const imageUpload =  await cloudinary.uploader.upload(imageFile.path,{resource_type:'image'})
+      const imageURL = imageUpload.secure_url
+
+      await userModel.findByIdAndUpdate(userId,{image:imageURL})
+    }
+
+    res.json({success:true,message:"Profile updated"})
+  } catch (error) {
+     console.log(error)
+    res.json({success:false, message:error.message})
+  }
+}
 //api to book appointment
 const  bookAppointment = async (req,res)=>{
   try {
@@ -111,7 +136,7 @@ return res.json({success:false,message: ' Doctor not available'})
 
     let slots_booked = docData.slots_booked
 
-    //cheching for slot availability
+    //checking for slot availability
     if(slots_booked[slotDate]){
       if(slots_booked[slotDate].includes(slotTime)){
 return res.json({success:false,message: ' slot not available'})
@@ -166,4 +191,39 @@ const listAppointment = async (req,res) =>{
     res.json({success:false, message:error.message})
   }
 }
-export {registerUser,loginUser,getProfile,bookAppointment,listAppointment}
+
+//api to cancel appointment
+const cancelAppointment = async(req,res)=>{
+  try {
+    const {userId,appointmentId} = req.body
+
+    const appointmentData = await appointmentModel.findById(appointmentId)
+
+    //verify appointment user 
+    if(appointmentData.userId !== userId){
+return res.json({success:false,message:'Unauthorized action'
+})
+    }
+
+await appointmentModel.findByIdAndUpdate(appointmentId,{cancelled:true})
+
+//releasing doctor slot
+const {docId,slotDate,slotTime} =appointmentData
+const doctorData = await doctorModel.findById(docId)
+
+let slots_booked = doctorData.slots_booked
+
+slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime)
+
+
+await doctorModel.findByIdAndUpdate(docId, {slots_booked})
+
+res.json({success:true, message:'Appointment cancel'})
+
+    
+  } catch (error) {
+     console.log(error)
+    res.json({success:false, message:error.message})
+  }
+}
+export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment}
